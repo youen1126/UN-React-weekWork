@@ -5,23 +5,22 @@ import "./assets/style.css";
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-// import './App.css'
 
 function App() {
 
-  //表單資料狀態（存入表單輸入）
+  //由下方handleInputChange控制變更setFormData
   const [formData, setFormData] = useState({
-    username: "youen1126@gmail.com",
+    username: "",
     password: "",
   });
-  //登入狀態管理
-  const [isAuth, setIsAuth] = useState(false);
-  //產品資料狀態
+
+  const [isAuth, setIsAuth] = useState(false); //預設成登入頁面
   const [products, setProducts] = useState([]);
-  //目前選中的產品
   const [tempProduct, setTempProduct] = useState(null);
 
-  //登入取值  
+  const [checkText, setCheckText] = useState(null);
+
+  // //登入取值，綁監聽，(preData)保證取得前一次的值
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((preData) => ({
@@ -30,48 +29,54 @@ function App() {
     }));
   };
 
+  //取得遠端products data
   const getProducts = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/admin/products`)
       setProducts(res.data.products)
     } catch (error) {
-      console.log(error.response)
+      console.error(error.response?.data)
     }
   }
-  //登入取token、取得產品資料
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${API_BASE}/admin/signin`, formData)
-      // console.log(res.data);
-      //取得token並存入cookie
-      const { token, expired } = res.data
-      document.cookie = `myToken=${token};expires=${new Date(expired)};`;
-      axios.defaults.headers.common['Authorization'] = `${token}`;
 
-      setIsAuth(true);
+
+  //登入api，設定cookies，取token
+  const onSubmit = async (e) => {
+    try {
+      e.preventDefault(); // 清預設事件
+      const res = await axios.post(`${API_BASE}/admin/signin`, formData)
+
+      //取得token並存入cookie
+      const { token, expired } = res.data;
+      document.cookie = `myToken=${token};expires=${new Date(expired)};`;
+      //存axios的Auth
+      axios.defaults.headers.common['Authorization'] = `${token}`;
       //取得產品資料
       getProducts();
+      //控制切換畫面
+      setIsAuth(true);
+
     } catch (error) {
       setIsAuth(false);
-      console.log(error.response);
+      console.error(error.response?.data);
     }
   };
 
-  //確認登入
+  //確認登入函式
   async function checkLogin() {
     try {
+      // 取得token的方法，複製文件的來用
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("myToken="))
         ?.split("=")[1];
-      //console.log(token);
+
       const res = await axios.post(`${API_BASE}/api/user/check`)
       axios.defaults.headers.common.Authorization = token;
-      console.log(res);
-
+      console.warn(res.data);
+      setCheckText('有取得token，成功登入');
     } catch (error) {
-      console.log(error.response?.data.message);
+      console.error(error.response?.data.message);
     }
   }
 
@@ -79,16 +84,17 @@ function App() {
   return (
     <>
       {!isAuth ? (<div className="container login">
-        <h1>請先登入</h1>
-        <form className="form-floating" onSubmit={onSubmit}>
+        <h2>🌿 歡迎進入種子手作工坊 🌿</h2>
+        <br />
+        <form className="form-floating" onSubmit={onSubmit}>{/*綁定*/}
           <div className="form-floating mb-3">
             <input
               type="email"
               className="form-control"
               placeholder="name@example.com"
               name="username"
-              value={formData.username}
-              onChange={handleInputChange}
+              value={formData.username} //綁定上面函式
+              onChange={(e) => handleInputChange(e)} //綁定事件監聽
             />
             <label htmlFor="username">Email address</label>
           </div>
@@ -98,12 +104,12 @@ function App() {
               className="form-control"
               name="password"
               placeholder="Password"
-              value={formData.password}
-              onChange={handleInputChange}
+              value={formData.password} //綁定上面函式
+              onChange={(e) => handleInputChange(e)} //綁定事件監聽
             />
             <label htmlFor="password">Password</label>
           </div>
-          <button type="submit" className="btn btn-info w-100 mt-2">登入</button>
+          <button type="submit" className="btn btn-un w-100 mt-3">登入</button>
         </form>
 
       </div>) : (
@@ -111,13 +117,14 @@ function App() {
           <div className="row mt-5">
             <div className="col-md-6">
               <button
-                className="btn btn-danger mb-5"
+                className="btn btn-un mb-3"
                 type="button"
                 onClick={checkLogin}
               >
-                確認是否登入
+                這裡點擊確認是否登入
               </button>
-              <h2>產品列表</h2>
+              <p>{checkText}</p> {/*有登入成功這個字會顯示在畫面*/}
+              <h2>🌿 產品列表 🌿</h2>
               <table className="table">
                 <thead>
                   <tr>
@@ -138,7 +145,7 @@ function App() {
                         {item.is_enabled ? '啟用' : '未啟用'}
                       </td>
                       <td>
-                        <button className="btn btn-primary" onClick={() => setTempProduct(item)}>查看細節</button>
+                        <button className="btn btn-un-produck" onClick={() => setTempProduct(item)}>查看細節</button>
                       </td>
                     </tr>
                   ))}
@@ -146,7 +153,7 @@ function App() {
               </table>
             </div>
             <div className="col-md-6">
-              <h2>單一產品細節</h2>
+              <h2>🌿 單一產品細節 🌿</h2>
               {tempProduct ? (
                 <div className="card m-3" >
                   <img src={tempProduct.imageUrl}
@@ -167,7 +174,7 @@ function App() {
                     <div className="p-2">
                       {
                         tempProduct.imagesUrl?.map((i, idx) => (
-                          <div className="p-3" key={i + idx}>
+                          <div className="p-2" key={i + idx}>
                             <img
                               src={i}
                               style={{ height: "100px", borderRadius: 8 }}

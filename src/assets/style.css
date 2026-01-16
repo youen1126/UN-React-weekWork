@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     text-align: center;
+    background-color: #CCB9AA;
 }
 
 .login {
@@ -30,4 +31,34 @@ img {
 
 .images {
     height: 150px;
+}
+
+.btn-un {
+    background-color: #e1e1df;
+}
+
+.btn-un:hover {
+    background: #737c75;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-un:active {
+    background: #c5ab89;
+    transform: translateY(-1px);
+}
+
+.btn-un-produck {
+    background-color: #ab8c83;
+    color: #fff;
+}
+
+.btn-un-produck:hover {
+    background: #c5ab89;
+    transform: translateY(-1px);
+}
+
+.btn-un-produck:active {
+    background: #c5ab89;
+    transform: translateY(-1px);
 }
