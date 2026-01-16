@@ -37,8 +37,9 @@ dist-ssr
 # 以下是單檔不想add . 
 
 AppUseEffect.jsx
-AppUseRef.jex
+AppUseRef.jsx
 AppUseState.jsx
 MyApp.jsx
+test.json
 *.test.json
 *.test.js
