@@ -41,5 +41,6 @@ AppUseRef.jsx
 AppUseState.jsx
 MyApp.jsx
 test.json
+備用.jsx
 *.test.json
 *.test.js

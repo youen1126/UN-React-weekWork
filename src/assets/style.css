@@ -33,6 +33,13 @@ img {
     height: 150px;
 }
 
+.table-wrapper {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+    overflow: hidden;
+}
+
 .btn-un {
     background-color: #e1e1df;
 }
@@ -61,4 +68,8 @@ img {
 .btn-un-produck:active {
     background: #c5ab89;
     transform: translateY(-1px);
+}
+
+.btn-un-danger {
+    background-color: #965454;
 }
