@@ -45,6 +45,7 @@ test.json
 備用.jsx
 *.test.json
 *.test.js
+index2.html
 
 components-practise/
 practise/
