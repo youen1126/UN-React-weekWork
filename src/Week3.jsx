@@ -25,8 +25,8 @@ function App() {
 
     //由下方handleInputChange控制變更setFormData
     const [formData, setFormData] = useState({
-        username: "youen1126@gmail.com",
-        password: "awe592busy557",
+        username: "",
+        password: "",
     });
 
     const [isAuth, setIsAuth] = useState(false);
