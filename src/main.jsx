@@ -6,8 +6,6 @@ import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import App from './App.jsx'
-import Week2 from './Week2.jsx'
 import Week3 from './Week3.jsx'
 //import Daily from './practise/Daily.jsx'
 import Week4 from './Week4.jsx'

@@ -12,8 +12,8 @@ export default function Login({
 }) {
 
     const [formData, setFormData] = useState({
-        username: "youen1126@gmail.com",
-        password: "awe592busy557",
+        username: "",
+        password: "",
     });
 
     // 綁監聽，(preData)保證取得前一次的值
