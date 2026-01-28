@@ -33,7 +33,6 @@ export default function ProductModal({
         setTempData((pre) => {
             const newImage = [...pre.imagesUrl]
             newImage[index] = value;
-            //有空可以優化：自動加空輸入框、最多5筆圖片資料、網址刪掉時自動少一個框
             return {
                 ...pre,
                 imagesUrl: newImage
@@ -45,7 +44,6 @@ export default function ProductModal({
     const handelAddImage = (() => {
         setTempData((pre) => {
             const newImage = [...pre.imagesUrl, ""];
-            //newImage.push("");
             return {
                 ...pre,
                 imagesUrl: newImage
@@ -70,11 +68,12 @@ export default function ProductModal({
     const delProduct = async (id) => {
         try {
             const res = await axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${id}`)
-            console.warn(res.data);
+            alert(res.data.message);
             getProducts();
             closeModal();
         } catch (error) {
-            console.warn(error.response);
+            alert('刪除失敗')
+            console.error(error.response);
         }
     }
 
@@ -93,7 +92,8 @@ export default function ProductModal({
             }))
 
         } catch (error) {
-            console.log(error.response);
+            alert('上傳圖片失敗')
+            console.error(error.response);
         }
     };
 
@@ -127,7 +127,7 @@ export default function ProductModal({
             closeModal();
 
         } catch (error) {
-            alert('表單不可為空或你有未填項目');
+            alert('表單不可為空或你有未填項目', error.response.data.message);
             console.warn(error.response);
         }
     }
@@ -172,7 +172,7 @@ export default function ProductModal({
                                     <div className="col-sm-4">
                                         <div className="mb-2">
                                             <div className="mb-3">
-                                                <label htmlFor="fileUpload" className="form-label">
+                                                <label htmlFor="fileUpload" className="form-label" >
                                                     上傳圖片
                                                 </label>
                                                 <input

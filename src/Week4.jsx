@@ -33,8 +33,6 @@ function App() {
 
     const [templeteProduct, setTempleteProduct] = useState(INITIAL_TEMPLATE_DATA);
 
-    //const [updataText, setUpdataText] = useState(null);
-
     const [modalType, setModalType] = useState();
 
     const productModalRef = useRef(null);
@@ -46,10 +44,9 @@ function App() {
         try {
             const res = await axios.get(`${API_BASE}/api/${API_PATH}/admin/products?page=${page}`)
             setProducts(res.data.products);
-            //取api中的分頁data
             setPagination(res.data.pagination);
         } catch (error) {
-            console.error(error.response?.data)
+            alert(error.response?.data);
         }
     };
 
@@ -73,20 +70,17 @@ function App() {
             try {
 
                 const res = await axios.post(`${API_BASE}/api/user/check`)
-                console.warn('有取得token,成功登入');
-                //res.data.
+                console.warn('有取得token,成功登入', res.status);
                 setIsAuth(true);
                 getProducts();
-
             } catch (error) {
-                console.error(error.response?.data.message);
+                alert(error.response?.data.message);
             }
         }
         checkLogin()
     }, []);
 
     const openModal = (type, product) => {
-        //console.log(product)
         setModalType(type)
         setTempleteProduct((pre) => ({
             ...pre,
@@ -217,8 +211,6 @@ function App() {
                 getProducts={getProducts}
 
             />
-
-
         </>
     );
 
