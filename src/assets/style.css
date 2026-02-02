@@ -2,7 +2,7 @@ html,
 body {
     height: 100%;
     text-align: center;
-    background-color: #CCB9AA;
+    background-color: #493c33;
 }
 
 .login {
@@ -72,4 +72,20 @@ img {
 
 .btn-un-danger {
     background-color: #965454;
+}
+
+/* Navbar 文字顏色 */
+.nav-link {
+    color: #f1ebcc !important;
+}
+
+/* hover 狀態 */
+.nav-link:hover {
+    color: #ffffff !important;
+}
+
+/* 目前頁面（active） */
+.nav-link.active {
+    color: #f2a72d !important;
+    font-weight: 600;
 }
